@@ -1,22 +1,25 @@
 package org.user.example;
 
+import org.user.connection.ConnectionMaker;
+import org.user.connection.DConnectionMaker;
 import org.user.dao.UserDao;
 import org.user.entity.User;
 
 import java.sql.*;
 
-public class Main {
+public class UserDaoTest {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        UserDao dao = new UserDao();
+
+        ConnectionMaker connectionMaker = new DConnectionMaker();
+        UserDao userDao = new UserDao(connectionMaker);
 
 
-        User user = User.builder().id("whiteship").name("백기선").passWord("married")
-                .build();
-        dao.add(user);
+        User user = new User("whiteship", "백기선", "spring");
+        userDao.add(user);
 
         System.out.println(user.getId() + " 등록 성공");
 
-        User user2 = dao.get(user.getId());
+        User user2 = userDao.get(user.getId());
 
         System.out.println(user2.getId());
         System.out.println(user2.getName());
