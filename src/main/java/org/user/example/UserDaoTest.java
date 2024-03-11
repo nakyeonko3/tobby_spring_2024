@@ -1,18 +1,15 @@
 package org.user.example;
 
-import org.user.connection.ConnectionMaker;
-import org.user.connection.DConnectionMaker;
+import org.user.dao.DaoFactory;
 import org.user.dao.UserDao;
 import org.user.entity.User;
 
-import java.sql.*;
+import java.sql.SQLException;
 
 public class UserDaoTest {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
-        ConnectionMaker connectionMaker = new DConnectionMaker();
-        UserDao userDao = new UserDao(connectionMaker);
-
+        UserDao userDao = new DaoFactory().userDao();
 
         User user = new User("whiteship", "백기선", "spring");
         userDao.add(user);
