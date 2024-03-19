@@ -1,30 +1,33 @@
-package org.user;
+package org.user.dao;
 
+
+import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
-import org.user.dao.UserDao;
 import org.user.entity.User;
 
 import java.sql.SQLException;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+
+
 public class UserDaoTest {
-    public static void main(String[] args) throws SQLException {
 
-
-        //AnnotationConfigApplicationContext가 @Configuration이 붙은 코드를 설정 정보로 등록한다
+    @Test
+    public void addAndGet() throws SQLException {
         ApplicationContext context = new GenericXmlApplicationContext("applicationContext.xml");
 
 //        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
         //getBean은 빈으로 등록된 userDao를 호출한다. UserDao의 객체를 가져오는셈
         UserDao userDao = context.getBean("userDao", UserDao.class);
-        User user = new User("whiteship", "백기선", "spring");
+
+        User user = new User(".gyumee", "박상철", "springno1");
         userDao.add(user);
 
         User user2 = userDao.get(user.getId());
-
-        System.out.println(user2.getId());
-        System.out.println(user2.getName());
-
+        assertThat(user2.getName(), is(user.getName()));
+        assertThat(user2.getPassWord(), is(user.getPassWord()));
     }
 
 }
