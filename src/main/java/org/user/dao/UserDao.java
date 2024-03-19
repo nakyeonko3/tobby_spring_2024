@@ -2,22 +2,22 @@ package org.user.dao;
 
 import org.user.entity.User;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDao {
-    private ConnectionMaker connectionMaker;
+    private DataSource dataSource;
 
-
-    public void setConnectionMaker(ConnectionMaker connectionMaker) {
-        this.connectionMaker = connectionMaker;
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
-    public void add(User user)throws ClassNotFoundException, SQLException {
-        Connection c = connectionMaker.makeConnection();
-        PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values(?,?,?)");
+    public void add(User user)throws SQLException {
+        Connection connection = dataSource.getConnection();
+        PreparedStatement ps = connection.prepareStatement("insert into users(id, name, password) values(?,?,?)");
         ps.setString(1, user.getId());
         ps.setString(2, user.getName());
         ps.setString(3, user.getPassWord());
@@ -25,12 +25,12 @@ public class UserDao {
         ps.executeUpdate();
 
         ps.close();
-        c.close();
+        connection.close();
     }
 
-    public User get(String id) throws ClassNotFoundException, SQLException {
-        Connection c = connectionMaker.makeConnection();
-        PreparedStatement ps = c.prepareStatement("select * from users where id =?");
+    public User get(String id) throws SQLException {
+        Connection connection = dataSource.getConnection();
+        PreparedStatement ps = connection.prepareStatement("select * from users where id =?");
         ps.setString(1,id);
 
         ResultSet rs = ps.executeQuery();
@@ -38,7 +38,7 @@ public class UserDao {
         User user = new User(rs.getString("id"), rs.getString("name"), rs.getString("passWord"));
         rs.close();
         ps.close();
-        c.close();
+        connection.close();
 
         return user;
     }
