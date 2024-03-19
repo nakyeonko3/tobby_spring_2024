@@ -1,6 +1,5 @@
 package org.user.dao;
 
-import org.user.connection.ConnectionMaker;
 import org.user.entity.User;
 
 import java.sql.Connection;
@@ -9,9 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDao {
-    private final ConnectionMaker connectionMaker;
+    private ConnectionMaker connectionMaker;
 
-    public UserDao(ConnectionMaker connectionMaker) {
+
+    public void setConnectionMaker(ConnectionMaker connectionMaker) {
         this.connectionMaker = connectionMaker;
     }
 
