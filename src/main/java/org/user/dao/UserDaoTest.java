@@ -22,8 +22,12 @@ public class UserDaoTest {
         //getBean은 빈으로 등록된 userDao를 호출한다. UserDao의 객체를 가져오는셈
         UserDao userDao = context.getBean("userDao", UserDao.class);
 
+        userDao.deletAll();
+        assertThat(userDao.getCount(), is(0));
+
         User user = new User(".gyumee", "박상철", "springno1");
         userDao.add(user);
+        assertThat(userDao.getCount(), is(1));
 
         User user2 = userDao.get(user.getId());
         assertThat(user2.getName(), is(user.getName()));
