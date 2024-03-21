@@ -3,30 +3,18 @@ package org.user.dao;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.user.entity.User;
 
+import javax.sql.DataSource;
 import java.sql.SQLException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "/test-applicationContext.xml")
 public class UserDaoTest {
-    @Autowired
-    private ApplicationContext context;
-
-    @Autowired
     private UserDao userDao;
-
-
 
     private User user1;
     private User user2;
@@ -35,10 +23,12 @@ public class UserDaoTest {
 
     @Before
     public void setUp() {
-        this.userDao = context.getBean("userDao", UserDao.class);
         this.user1 = new User(".gyumee", "박상철", "springno1");
         this.user2 = new User("leegw700", "이길원", "springno2");
         this.user3 = new User("bumjin", "박범진", "springno3");
+        this.userDao = new UserDao();
+        DataSource dataSource = new SingleConnectionDataSource("jdbc:mysql://localhost/testdb", "spring", "book", true);
+        this.userDao.setDataSource(dataSource);
     }
 
     @Test(expected = EmptyResultDataAccessException.class)
