@@ -11,8 +11,11 @@ repositories {
 
 dependencies {
     implementation 'junit:junit:4.13.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.0.0'
+    implementation 'org.springframework:spring-test:6.1.5'
+    testImplementation 'org.springframework:spring-test:6.1.5'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine'
     testImplementation 'org.hamcrest:hamcrest:2.2'
+
     implementation 'org.springframework:spring-context:6.1.4'
     implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.3.0'
     implementation 'org.springframework:spring-jdbc:6.1.5'
